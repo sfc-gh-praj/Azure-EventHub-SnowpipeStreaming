@@ -1,1 +1,1 @@
-# Azure_EventHub_SnowpipeStreaming
+# Azure-EventHub-SnowpipeStreaming
