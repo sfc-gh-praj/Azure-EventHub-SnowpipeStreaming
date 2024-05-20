@@ -4,14 +4,29 @@ import time
 import json
 import random
 
+"""
+This program simulates the production of vehicle telemetry data and sends it to an Event Hub.
+
+You can adjust the following variables to ingest more data:
+
+    - num_threads: Number of threads to run concurrently for message production.
+    - num_messages_per_thread: Number of messages each thread will produce.
+
+The name of the Event Hub is assigned to the variable 'topic', which represents the Kafka topic to send messages to.
+
+
+
+"""
+
+
 # Define Kafka producer configuration
 config = {
-    'bootstrap.servers': 'kafkaehstd12.servicebus.windows.net:9093',
+    'bootstrap.servers': 'vehicletoll.servicebus.windows.net:9093',
     'security.protocol': 'SASL_SSL',
     'sasl.mechanism': 'PLAIN',
     'sasl.username': '$ConnectionString',
     'ssl.ca.location': 'cacert.pem',  
-    'sasl.password': 'Endpoint=sb://kafkaehstd12.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=1H3FRhmxFFm',
+    'sasl.password': 'Endpoint=sb://vehicletoll.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=lc91264Asw=',
     'client.id': 'python-example-producer_localmachine',
    
 }
@@ -46,10 +61,10 @@ def produce_to_kafka(topic, num_messages):
         else:
             low_fuel_indicator = random.random() <= 0.4
 
-        event_timestamp = int(time.time()*1000)
+        event_timestamp = int(time.time())
         data = {
             "vehicle": random.choice(vehicle_ids),
-            "eventtimestamp": event_timestamp,
+            "eventtimestamp": int(time.time()),
             "rotations_per_mins": rotations_per_min,
             "low_fuel_indicator": low_fuel_indicator,
             "speed": speed,
@@ -65,11 +80,11 @@ def produce_to_kafka(topic, num_messages):
 
 # Define the number of threads and messages per thread
 num_threads =10
-num_messages_per_thread = 10000
+num_messages_per_thread = 1000
 
 
 # Define the topic to send messages to
-topic = 'vehiclesensordatastd'
+topic = 'vehicle_iot_data'
 
 # Start the timer
 start_time = time.time()

@@ -1,1 +1,5 @@
 connection.json
+SF_Connect.properties
+sf-connect-standalone.properties
+SF_Connect_Phani.json
+Other/*.*
